@@ -1,17 +1,5 @@
 # frozen_string_literal: true
-
 # пока не знаю что это, он сам их хочет создавать. Похоже на уточнее для других, что тут используются константы
-
-TASK_FILE_NAME = 'Task8/task_data.txt' # .freeze - создание константы, внутренне состояние которой нельзя изменить. Он сам мне это посоветовал и сам ругается что она не нужна
-create_data_file
-file = File.open(TASK_FILE_NAME, 'r')
-file_data = file.readlines.map(&:chomp)
-words_count_hash = Hash.new(0)
-file_data.each do |sentence|
-  sentence.split(/[\s,."()]+/).each { |word| words_count_hash[word.to_sym] += 1 }
-end
-sorted_output = words_count_hash.sort_by { |_key, value| -value }.to_h
-puts sorted_output
 
 def create_data_file
   File.open(TASK_FILE_NAME, 'w') do |f|
@@ -25,3 +13,14 @@ def create_data_file
     The journey through the alternate Akihabara brought forth unexpected alliances and heartbreaking revelations. Friendships were tested, and loyalties were challenged, as the group navigated the intricacies of the multiverse. The lines between cause and effect blurred, and Okabe found himself questioning the very nature of free will in a world shaped by the delicate threads of time. As the group stood on the precipice of unraveling the mystery, a haunting truth loomed over them—the consequences of their actions reverberated not only through the past and present but also into an uncertain future. The fate of Akihabara and the lives of its inhabitants rested in the hands of the time-traveling misfits, as they grappled with the paradoxes that defined their existence.')
   end
 end
+
+TASK_FILE_NAME = 'Task8/task_data.txt' # .freeze - создание константы, внутренне состояние которой нельзя изменить. Он сам мне это посоветовал и сам ругается что она не нужна
+create_data_file
+file = File.open(TASK_FILE_NAME, 'r')
+file_data = file.readlines.map(&:chomp)
+words_count_hash = Hash.new(0)
+file_data.each do |sentence|
+  sentence.split(/[\s,."()]+/).each { |word| words_count_hash[word.to_sym] += 1 }
+end
+sorted_output = words_count_hash.sort_by { |_key, value| -value }.to_h
+puts sorted_output
