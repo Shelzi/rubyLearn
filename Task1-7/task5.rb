@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Develop a method that takes an array and returns sum, average, and mode.
 
 def stats(array)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def number_guesing_game
   loops_count = 0
   magic_number = rand(0..100)
