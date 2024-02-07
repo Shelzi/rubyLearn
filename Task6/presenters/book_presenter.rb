@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookPresenter
   def self.display_book_info(book)
     "#{book.title},

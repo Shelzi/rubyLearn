@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # пока не знаю что это, он сам их хочет создавать. Похоже на уточнее для других, что тут используются константы
 
 require_relative 'utils/file_utils'

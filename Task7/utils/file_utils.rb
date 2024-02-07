@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FileUtils
   def self.write_file(file_name, content = nil) # rubocop:disable Metrics/MethodLength
     File.open(file_name, 'w') do |f|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthorPresenter
   def self.display_author_info(author)
     books_list = "#{@name} #{@surname}, books: "

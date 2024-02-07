@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Book
   attr_reader :title, :author, :genre, :pages
   attr_accessor :copies
