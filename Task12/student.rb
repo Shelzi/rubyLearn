@@ -21,7 +21,7 @@ class Student
   def do_homework(homework)
     homework.content = rand(1..10)
     homework.readiness = true
-    LOGGER.info("Homework #{homework.id} ready from student.id = #{self.id}")
+    LOGGER.info("Homework #{homework.id} ready from student.id = #{id}")
     homework
   end
 
@@ -55,13 +55,15 @@ class Student
     LOGGER.info('All mentors notidied')
   end
 
-  def update(homework,repository, mentor) # очень спорная реализация, по факту студент должен сделать всё сам, а тут за него чуть ли не автоматически домашку делают
+  # очень спорная реализация, по факту студент должен сделать всё сам, а тут за него чуть ли не автоматически домашку делают
+  # плюс я не использую метод интерфейса, это надо переделать
+  def update(repository, mentor)
     homework = repository.find(self, mentor)
     return if homework.readiness
 
     homework = do_homework(homework)
     submit_homework(repository, homework, mentor)
     notify(mentor)
-    LOGGER.info("Homework #{homework.id} fixed from student.id = #{self.id} and send to repository, mentor #{mentor.id} notified")
+    LOGGER.info("Homework #{homework.id} fixed from student.id = #{id} and send to repository, mentor #{mentor.id} notified")
   end
 end
