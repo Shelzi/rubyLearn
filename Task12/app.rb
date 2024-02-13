@@ -6,10 +6,11 @@ require_relative 'mentor'
 require_relative 'school_repository'
 
 repository = SchoolRepository.new
-
-stundent1 = Student.new
+LOGGER = Logger.new($stdout)
+stundent1 = Student.new(id)
 homework1 = Homework.new(stundent1.id, 'Math')
 mentor1 = Mentor.new
+
 stundent1.attach(mentor1)
 stundent1.do_homework(homework1)
 stundent1.submit_homework(repository, homework1, mentor1)
@@ -23,3 +24,5 @@ stundent2.submit_homework(repository, homework2, mentor1)
 stundent2.notify_all
 
 mentor1.check_homeworks(repository)
+student1.fix_homeworks(repository)
+

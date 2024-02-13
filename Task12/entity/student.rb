@@ -6,13 +6,11 @@ class Student
   include Notifier
   include Observer
 
-  LOGGER = Logger.new($stdout)
-
   @@id_counter = 0
 
   attr_reader :id
 
-  def initialize()
+  def initialize(logger = Logger.new($stdout))
     @@id_counter += 1
     @id = @@id_counter
     @mentors = []
@@ -57,13 +55,14 @@ class Student
 
   # очень спорная реализация, по факту студент должен сделать всё сам, а тут за него чуть ли не автоматически домашку делают
   # плюс я не использую метод интерфейса, это надо переделать
+
+  # разбить на методы
   def update(repository, mentor)
     homework = repository.find(self, mentor)
     return if homework.readiness
 
     homework = do_homework(homework)
     submit_homework(repository, homework, mentor)
-    notify(mentor)
     LOGGER.info("Homework #{homework.id} fixed from student.id = #{id} and send to repository, mentor #{mentor.id} notified")
   end
 end

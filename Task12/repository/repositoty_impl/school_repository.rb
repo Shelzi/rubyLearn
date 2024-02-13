@@ -4,11 +4,7 @@ require 'logger'
 class SchoolRepository < Repository
   LOGGER = Logger.new($stdout)
 
-  def initialize # rubocop:disable Lint/MissingSuper
-    @homeworks = Hash.new { |hash, key| hash[key] = {} }
-    @next_id = 0
-  end
-
+  
   def find(student, mentor)
     @homeworks[student][mentor]
   end
