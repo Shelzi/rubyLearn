@@ -1,38 +1,57 @@
-require_relative 'notification/observer'
-require 'logger'
+require_relative '../notification/observer'
+require_relative '../notification/notifier'
+require_relative '../logger/my_logger'
 
 class Mentor
   include Observer
-
-  LOGGER = Logger.new($stdout)
+  include Notifier
 
   @@id_counter = 0
 
   attr_accessor :subscribed_students, :students_to_check
   attr_reader :id
 
-  def initialize(subscribed_students = [])
+  def initialize()
     @@id_counter += 1
     @id = @@id_counter
-    @subscribed_students = subscribed_students
+    @students_subs = []
     @students_to_check = []
   end
 
   def update(student)
     students_to_check << student
-    LOGGER.info("student #{student.id} is in a wait-list to check homework")
+  end
+
+  def attach(student)
+    @students_subs << student
+  end
+
+  def detach(student)
+    @students_subs.delete(student)
+  end
+
+  def notify(student)
+    student.update(self)
+  end
+
+  def notify_all
+    @students_subs.each do |student|
+      student.update(self)
+    end
+  end
+
+  def submit_homework(repository, homework, student)
+    repository.save(homework, student.id, id)
+    notify(student)
   end
 
   def check_homeworks(repository)
-    LOGGER.info("Wait-list right now is #{students_to_check}")
     students_to_check.each do |student|
-      homework = repository.find(student, self)
+      homework = repository.find(student.id, id)
       homework.grade = (homework.content >= 5)
       homework.readiness = false if homework.grade
-      repository.save(homework, student, self)
-      student.update(homework, repository, self) #это надо переделать, нужна помощь. Что-то по типу двусторонней подписки? Или проверять друг друга, что есть бред.
+      submit_homework(repository, homework, student)
     end
     @students_to_check = []
-    LOGGER.info("all homeworks checked")
   end
 end

@@ -1,6 +1,6 @@
-require_relative 'notification/notifier'
-require_relative 'notification/observer'
-require 'logger'
+require_relative '../notification/notifier'
+require_relative '../notification/observer'
+require_relative '../logger/my_logger'
 
 class Student
   include Notifier
@@ -10,59 +10,57 @@ class Student
 
   attr_reader :id
 
-  def initialize(logger = Logger.new($stdout))
+  def initialize
     @@id_counter += 1
     @id = @@id_counter
-    @mentors = []
+    @mentors_subs = []
+    @homework_to_do = []
   end
 
   def do_homework(homework)
     homework.content = rand(1..10)
     homework.readiness = true
-    LOGGER.info("Homework #{homework.id} ready from student.id = #{id}")
     homework
   end
 
-  def submit_homework(repository, homework, mentor)
-    repository.save(homework, self, mentor)
+  def submit_homework(repository, homework, mentor_id)
+    repository.save(homework, id, mentor_id)
     notify(mentor)
-    LOGGER.info("Homework #{homework.id} submited from student #{id}")
   end
 
   def attach(mentor)
-    @mentors << mentor
-    LOGGER.info("Mentor #{mentor.id} attached to student #{id}")
+    @mentors_subs << mentor
   end
 
   def detach(mentor)
-    @mentors.delete(mentor)
-    LOGGER.info("Mentor #{mentor.id} detached from student #{id}")
+    @mentors_subs.delete(mentor)
   end
 
   def notify(mentor)
     mentor.update(self)
-    LOGGER.info("Mentor #{mentor.id} notified from student #{id}")
   end
 
-  # Получилось не так как надо. По итогу выходит, что как только выполнилась одна домашка - узнают все менторы.
-  # А использовать метод notify(mentor) - какой тогда смысл в паттерне по итогу, если я его этим ломаю...
   def notify_all
-    @mentors.each do |mentor|
+    @mentors_subs.each do |mentor|
       mentor.update(self)
     end
-    LOGGER.info('All mentors notidied')
   end
 
-  # очень спорная реализация, по факту студент должен сделать всё сам, а тут за него чуть ли не автоматически домашку делают
-  # плюс я не использую метод интерфейса, это надо переделать
-
-  # разбить на методы
   def update(repository, mentor)
-    homework = repository.find(self, mentor)
+    homework = repository.find(id, mentor.id)
     return if homework.readiness
 
-    homework = do_homework(homework)
-    submit_homework(repository, homework, mentor)
-    LOGGER.info("Homework #{homework.id} fixed from student.id = #{id} and send to repository, mentor #{mentor.id} notified")
+    @homework_to_do << homework
+  end
+
+  def fix_homeworks(repository)
+    return if @homework_to_do.empty?
+
+    @homework_to_do.each do |homework|
+      homework_to_submit = do_homework(homework)
+      submit_homework(repository, homework_to_submit, homework.mentor_id) ##РЕШИТЬ ПРОБЛЕМУ С АЙДИ МЕНТОРА И ТД, ТИПО КАК ХРАНИТЬ В БД
+    end
+
+    @homework_to_do = []
   end
 end
