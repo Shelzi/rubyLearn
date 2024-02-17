@@ -22,4 +22,9 @@ class SchoolRepository < Repository
   def delete(student, mentor)
     @homeworks[student][mentor] = nil
   end
+
+  def to_s
+    "id: #{@id}\n homeworks connections:\n#{@homeworks}"
+  end
+
 end

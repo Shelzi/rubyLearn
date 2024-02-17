@@ -8,4 +8,8 @@ class Homework
     @title = title
     @readiness = readiness
   end
+
+  def to_s
+    "id: #{id}\nstudents id: #{@student_id}\nmentor id: #{@mentor_id}\ntitle: #{@title}\nreadiness: #{@readiness}\ngrade: #{grade}\ncontrent: #{content}"
+  end
 end
