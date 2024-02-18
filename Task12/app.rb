@@ -3,7 +3,7 @@
 require_relative 'entity/homework'
 require_relative 'entity/student'
 require_relative 'entity/mentor'
-require_relative 'repository/repositoty_impl/school_repository'
+require_relative 'repository/school_repository'
 require 'logger'
 
 LOGGER = Logger.new($stdout)

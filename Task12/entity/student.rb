@@ -1,6 +1,5 @@
 require_relative '../notification/notifier'
 require_relative '../notification/observer'
-require_relative '../logger/my_logger'
 
 class Student
   include Notifier
@@ -27,16 +26,16 @@ class Student
   def submit_homework(homework, mentor_id)
     @school_repository.save(homework, id, mentor_id)
     @mentors_subs.each do |mentor|
-      notify(mentor) if mentor.id == mentor_id # какой-то трындец конечно, но уже как-то 
+      notify(mentor) if mentor.id == mentor_id # какой-то трындец конечно, но уже как-то
     end
   end
 
   def attach(mentor)
-    @mentors_subs << mentor
+    mentors_subs << mentor
   end
 
   def detach(mentor)
-    @mentors_subs.delete(mentor)
+    mentors_subs.delete(mentor)
   end
 
   def notify(mentor)
@@ -44,7 +43,7 @@ class Student
   end
 
   def notify_all
-    @mentors_subs.each do |mentor|
+    mentors_subs.each do |mentor|
       mentor.update(self)
     end
   end
@@ -53,21 +52,21 @@ class Student
     homework = @school_repository.find(id, mentor.id)
     return if homework.readiness
 
-    @homework_to_do << homework
+    homework_to_do << homework
   end
 
   def fix_homeworks
-    return if @homework_to_do.empty?
+    return if homework_to_do.empty?
 
-    @homework_to_do.each do |homework|
+    homework_to_do.each do |homework|
       homework_to_submit = do_homework(homework)
-      submit_homework(homework_to_submit, homework.mentor_id) ##РЕШИТЬ ПРОБЛЕМУ С АЙДИ МЕНТОРА И ТД, ТИПО КАК ХРАНИТЬ В БД
+      submit_homework(homework_to_submit, homework.mentor_id)
     end
 
-    @homework_to_do = []
+    @homework_to_do = [] # if I gonna use this one without @ - it's starting to loop programm
   end
 
   def to_s
-    "id: #{@id}\nmentors subs: #{@mentors_subs}\nhomework_to_do: #{@homework_to_do}"
+    "id: #{id}\nmentors subs: #{mentors_subs}\nhomework_to_do: #{homework_to_do}"
   end
 end

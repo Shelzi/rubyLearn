@@ -1,8 +1,8 @@
-require_relative '../repository' # ??
-require_relative '../../logger/my_logger'
+require_relative 'repository'
 
 class SchoolRepository < Repository
-  def initialize # rubocop:disable Lint/MissingSuper
+  def initialize
+    super
     @homeworks = Hash.new { |hash, key| hash[key] = {} } # @homeworks[student][mentor] = homework
     @next_id = 0
   end
@@ -12,10 +12,7 @@ class SchoolRepository < Repository
   end
 
   def save(homework, student, mentor)
-    if homework.id.nil?
-      homework.id = @next_id
-      @next_id += 1
-    end
+    assign_homework_id(homework)
     @homeworks[student][mentor] = homework
   end
 
@@ -27,4 +24,12 @@ class SchoolRepository < Repository
     "id: #{@id}\n homeworks connections:\n#{@homeworks}"
   end
 
+  private
+
+  def assign_homework_id(homework)
+    return unless homework.id.nil?
+
+    homework.id = @next_id
+    @next_id += 1
+  end
 end

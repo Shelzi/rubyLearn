@@ -1,6 +1,5 @@
 require_relative '../notification/observer'
 require_relative '../notification/notifier'
-require_relative '../logger/my_logger'
 
 class Mentor
   include Observer
@@ -24,11 +23,11 @@ class Mentor
   end
 
   def attach(student)
-    @students_subs << student
+    students_subs << student
   end
 
   def detach(student)
-    @students_subs.delete(student)
+    students_subs.delete(student)
   end
 
   def notify(student)
@@ -36,7 +35,7 @@ class Mentor
   end
 
   def notify_all
-    @students_subs.each do |student|
+    students_subs.each do |student|
       student.update(self)
     end
   end
@@ -53,10 +52,10 @@ class Mentor
       homework.readiness = homework.grade
       submit_homework(homework, student)
     end
-    @students_to_check = []
+    students_to_check = []
   end
 
   def to_s
-    "id: #{@id}\nstudents subs: #{@students_subs}\nstudents to check: #{@students_to_check}"
+    "id: #{id}\nstudents subs: #{students_subs}\nstudents to check: #{students_to_check}"
   end
 end

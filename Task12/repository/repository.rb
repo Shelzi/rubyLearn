@@ -1,6 +1,3 @@
-
-# !!!Всё ещё спорный репозиторий, методы не универсальные, пока хз, только если менять имплементацию репозитория в целом
-
 class Repository
   def find(student, mentor)
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
