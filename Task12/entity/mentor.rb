@@ -10,7 +10,7 @@ class Mentor
   attr_accessor :students_subs, :students_to_check
   attr_reader :id
 
-  def initialize(school_repository)
+  def initialize(school_repository:)
     @@id_counter += 1
     @id = @@id_counter
     @students_subs = []

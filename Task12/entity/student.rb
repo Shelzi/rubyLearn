@@ -10,7 +10,7 @@ class Student
 
   attr_reader :id, :mentors_subs, :homework_to_do
 
-  def initialize(school_repository)
+  def initialize(school_repository:)
     @@id_counter += 1
     @id = @@id_counter
     @mentors_subs = []
