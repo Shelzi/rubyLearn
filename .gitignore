@@ -1,0 +1,7 @@
+# Ignore VSCode workspace and settings files.
+.vscode/
+*.code-workspace
+
+# Ignore this .gitignore file itself.
+.gitignore
+Gemfile.lock
