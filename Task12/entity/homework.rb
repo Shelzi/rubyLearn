@@ -1,5 +1,5 @@
 class Homework
-  attr_accessor :title, :readiness, :grade, :content, :id # id writeble only for repo emulation
+  attr_accessor :title, :readiness, :grade, :content, :id # id writeble only for repo emulation, not really a solution
   attr_reader :student_id, :mentor_id
 
   def initialize(student_id:, mentor_id:, title:, readiness: false)
