@@ -57,17 +57,13 @@ class Student
   end
 
   def fix_homeworks
-    binding.pry
-
     return if homework_to_do.empty?
 
     homework_to_do.each do |homework|
-      binding.pry
       homework_to_submit = do_homework(homework)
       submit_homework(homework_to_submit, homework.mentor_id)
     end
-    binding.pry
-    @homework_to_do = [] # if I gonna use this one without @ - it's starting to loop programm
+    @homework_to_do = []
   end
 
   def to_s

@@ -8,7 +8,7 @@ class Mentor
   @@id_counter = 0
 
   attr_accessor :students_subs, :students_to_check
-  attr_reader :id
+  attr_reader :id, :school_repository
 
   def initialize(school_repository:)
     @@id_counter += 1
@@ -52,7 +52,7 @@ class Mentor
       homework.readiness = homework.grade
       submit_homework(homework, student)
     end
-    students_to_check = []
+    @students_to_check = []
   end
 
   def to_s

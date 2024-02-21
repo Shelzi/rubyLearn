@@ -11,18 +11,18 @@ LOGGER = Logger.new($stdout)
 repository = SchoolRepository.new
 LOGGER.info("Created new repository:\n #{repository}")
 student1 = Student.new(school_repository: repository)
-LOGGER.info("Created new student 1:\n #{student1.to_s}")
+LOGGER.info("Created new student 1:\n #{student1}")
 mentor1 = Mentor.new(school_repository: repository)
-LOGGER.info("Created new mentor 1:\n #{mentor1.to_s}")
+LOGGER.info("Created new mentor 1:\n #{mentor1}")
 homework1 = Homework.new(student_id: student1.id, mentor_id: mentor1.id, title: 'Math')
-LOGGER.info("Created new homework 2:\n #{homework1.to_s}")
+LOGGER.info("Created new homework 2:\n #{homework1}")
 
 student1.attach(mentor1)
 LOGGER.info("Student #{student1.id} attached to mentor #{mentor1.id}. Student subs:\n#{student1.mentors_subs}")
 student1.do_homework(homework1)
-LOGGER.info("Student #{student1.id} did his homework:\n#{homework1.to_s}")
+LOGGER.info("Student #{student1.id} did his homework:\n#{homework1}")
 student1.submit_homework(homework1, homework1.mentor_id)
-LOGGER.info("Student #{student1.id} submited his homework:\n#{repository.to_s}")
+LOGGER.info("Student #{student1.id} submited his homework:\n#{repository}")
 
 student2 = Student.new(school_repository: repository)
 homework2 = Homework.new(student_id: student2.id, mentor_id: mentor1.id, title: 'Music')
@@ -40,7 +40,7 @@ while still_homework_to_do
 
   break if student1.homework_to_do.empty? && student2.homework_to_do.empty?
 
-  LOGGER.info("Fixing...")
+  LOGGER.info('Fixing...')
   student1.fix_homeworks
   student2.fix_homeworks
 end
