@@ -8,7 +8,8 @@ class Student
 
   @@id_counter = 0
 
-  attr_reader :id, :mentors_subs, :homework_to_do
+  attr_accessor :id
+  attr_reader :mentors_subs, :homework_to_do
 
   def initialize(school_repository:)
     @@id_counter += 1
@@ -53,7 +54,7 @@ class Student
     homework = @school_repository.find(id, mentor.id)
     return if homework.readiness
 
-    homework_to_do << homework
+    homework_to_do << homework unless homework_to_do.include?(homework)
   end
 
   def fix_homeworks

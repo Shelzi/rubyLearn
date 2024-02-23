@@ -7,7 +7,9 @@ require 'pry-byebug'
 
 RSpec.describe Mentor do # rubocop:disable Metrics/BlockLength
   let(:school_repository) { SchoolRepository.new }
-  let(:mentor) { Mentor.new(school_repository: school_repository) }
+
+  subject(:mentor) { described_class.new(school_repository: school_repository) }
+
   let(:student) { Student.new(school_repository: school_repository) }
   let(:homework) { Homework.new(student_id: 1, mentor_id: 2, title: 'Ruby') }
 
@@ -25,29 +27,38 @@ RSpec.describe Mentor do # rubocop:disable Metrics/BlockLength
   end
 
   describe '#detach' do
-    it 'delete a student from the subscription list' do
-      mentor.attach(student)
-      mentor.detach(student)
+    before { mentor.attach(student) }
+    it 'delete a student from the subscription list', :aggregate_failures do
+      expect { mentor.detach(student) }.to change { mentor.students_subs.size }.from(1).to(0)
       expect(mentor.students_subs).not_to include(student)
     end
   end
 
   describe '#update' do
-    it 'recive notification from student, get added to the list' do
+    context 'when recive notification from student'
+    it 'notification get added to the list' do
       mentor.update(student)
       expect(mentor.students_to_check).to include(student)
     end
   end
 
   describe '#notify' do
-    it 'notifyes specific student, student saves mentor to homework_to_do' do
-      #       binding.pry
-      #       student.do_homework(homework)
-      #       student.submit_homework(homework, mentor.id)
-      #       mentor.notify(student)
-      #       expect(student.homework_to_do).to include(mentor)
-      expect(student).to receive(:update).with(mentor) # chatGPT, cool solutions, I like it
+    context 'when notifyes specific student'
+    before do
+      homework.content = 1
+      homework.readiness = true
+      student.id = 1
+      mentor.id = 2
+      student.attach(mentor)
+      mentor.attach(student)
+      student.submit_homework(homework, mentor.id)
+      mentor.check_homeworks
+    end
+    it 'student saves mentor to homework_to_do' do
       mentor.notify(student)
+      expect(student.homework_to_do).to include(homework)
+      # expect(student).to receive(:update).with(mentor) # chatGPT, cool solutions, I like it
+      # mentor.notify(student)
     end
   end
 

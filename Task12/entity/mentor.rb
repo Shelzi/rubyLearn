@@ -7,8 +7,8 @@ class Mentor
 
   @@id_counter = 0
 
-  attr_accessor :students_subs, :students_to_check
-  attr_reader :id, :school_repository
+  attr_accessor :students_subs, :id, :students_to_check
+  attr_reader :school_repository
 
   def initialize(school_repository:)
     @@id_counter += 1
