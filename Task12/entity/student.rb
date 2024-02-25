@@ -9,7 +9,7 @@ class Student
   @@id_counter = 0
 
   attr_accessor :id
-  attr_reader :mentors_subs, :homework_to_do
+  attr_reader :mentors_subs, :school_repository, :homework_to_do
 
   def initialize(school_repository:)
     @@id_counter += 1

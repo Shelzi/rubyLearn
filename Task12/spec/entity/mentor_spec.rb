@@ -45,10 +45,10 @@ RSpec.describe Mentor do # rubocop:disable Metrics/BlockLength
   describe '#notify' do
     context 'when notifyes specific student'
     before do
-      homework.content = 1
-      homework.readiness = true
-      student.id = 1
-      mentor.id = 2
+      allow(student).to receive(:id) { 10 }
+      allow(homework).to receive_messages(content: 1, rediness: true)
+      allow(mentor).to receive(:id) { 2 }
+
       student.attach(mentor)
       mentor.attach(student)
       student.submit_homework(homework, mentor.id)
@@ -57,16 +57,24 @@ RSpec.describe Mentor do # rubocop:disable Metrics/BlockLength
     it 'student saves mentor to homework_to_do' do
       mentor.notify(student)
       expect(student.homework_to_do).to include(homework)
-      # expect(student).to receive(:update).with(mentor) # chatGPT, cool solutions, I like it
-      # mentor.notify(student)
     end
   end
 
   describe '#notify_all' do
-    it 'notifies all subscribed students' do
+    context 'when notifyes all students'
+    before do
+      allow(student).to receive(:id) { 10 }
+      allow(homework).to receive_messages(content: 1, rediness: true)
+      allow(mentor).to receive(:id) { 2 }
+
+      student.attach(mentor)
       mentor.attach(student)
-      expect(student).to receive(:update).with(mentor)
+      student.submit_homework(homework, mentor.id)
+      mentor.check_homeworks
+    end
+    it 'notifies all subscribed students' do
       mentor.notify_all
+      expect(student.homework_to_do).to include(homework)
     end
   end
 
