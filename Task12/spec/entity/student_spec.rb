@@ -10,7 +10,9 @@ RSpec.describe Student do # rubocop:disable Metrics/BlockLength
 
   let(:school_repository) { SchoolRepository.new }
   let(:mentor) { Mentor.new(school_repository: school_repository) }
-  let(:homework) { Homework.new(student_id: 1, mentor_id: 2, title: 'Ruby') }
+
+  # I don't know why, but this is default id's of objects all the time
+  let(:homework) { Homework.new(student_id: 9, mentor_id: 7, title: 'Ruby') }
 
   describe '.new' do
     it 'init with school_repisitory' do
@@ -88,13 +90,14 @@ RSpec.describe Student do # rubocop:disable Metrics/BlockLength
   describe '#fix_homeworks' do
     context 'when student calls fix_homworks'
     before do
-      # allow(student).to receive(:homework_to_do).and_return([homework]) # and now I must make :homework_to_do writable, how avoid it? How stub properly?
+      # allow(student).to receive(:homework_to_do).and_return([homework]) # and now I must make :homework_to_do writable, how avoid it? How stub properly? Because this case not working
       # student.homework_to_do = [homework] # how to avoid it?
       student.instance_variable_set(:@homework_to_do, [homework])
     end
     it 'must redo all homeworks in homework_to_do list', :aggregate_failures do
+      old_homework = homework.dup
       student.fix_homeworks
-      expect(school_repository.find(student.id, mentor.id)).not_to eq(homework)
+      expect(school_repository.find(student.id, mentor.id).eql?(old_homework)).to be == false
       expect(student.homework_to_do).to eq([])
     end
   end

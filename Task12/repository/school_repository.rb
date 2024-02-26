@@ -21,7 +21,7 @@ class SchoolRepository < Repository
   end
 
   def to_s
-    "id: #{@id}\n homeworks connections:\n#{@homeworks}"
+    "homeworks connections:\n#{@homeworks}"
   end
 
   private

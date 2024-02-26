@@ -12,4 +12,12 @@ class Homework
   def to_s
     "id: #{id}\nstudents id: #{student_id}\nmentor id: #{mentor_id}\ntitle: #{title}\nreadiness: #{readiness}\ngrade: #{grade}\ncontrent: #{content}"
   end
+
+  def eql?(other)
+    other.is_a?(Homework) &&
+      student_id == other.student_id &&
+      mentor_id == other.mentor_id &&
+      title == other.title &&
+      readiness == other.readiness
+  end
 end
