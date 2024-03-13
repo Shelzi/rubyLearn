@@ -9,8 +9,8 @@ class ImageDownloadService
 
     strategy = DownloadStrategyFactory.create(download_task1.image_info.url)
     responce_body = strategy.download(download_task1.image_info.url)
-    new FileHandlerService.new.create_image_file_from_responce(url: download_task1.image_info.url,
-                                                               response: responce_body)
+    FileHandlerService.new.create_image_file_from_responce(url: download_task1.image_info.url,
+                                                               response_body: responce_body)
   rescue StandardError => e
     # TODO: add counting feature to continue downloading next images
     puts "Failed to download #{url}: #{e.message}"

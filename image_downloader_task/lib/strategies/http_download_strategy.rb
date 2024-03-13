@@ -1,4 +1,5 @@
 require_relative 'download_strategy'
+require 'net/http'
 
 class HTTPDownloadStrategy
   include DownloadStrategy
@@ -13,7 +14,7 @@ class HTTPDownloadStrategy
 
     response.body
   rescue URLResponseError => e
-    handle_error(e) # ChatGPT gave me an example of proper erorr handling, but I doubt it.
+    handle_error(e) # ChatGPT gave me an example of proper error handling, but I doubt it.
   end
 
   private
