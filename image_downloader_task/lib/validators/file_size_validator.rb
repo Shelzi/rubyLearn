@@ -1,10 +1,7 @@
-require_relative 'validator'
 require 'sys/filesystem'
 # require 'rbconfig'
 
-class FileSizeValidator
-  include Validator
-
+class FileSizeValidator < Validator
   def validate(response_body)
     data_size_bytes = response_body.bytesize
 
