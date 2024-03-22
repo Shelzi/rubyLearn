@@ -1,9 +1,8 @@
-require_relative 'download_strategy'
+# frozen_string_literal: true
+
 require 'net/http'
 
-class HTTPDownloadStrategy
-  include DownloadStrategy
-
+class HTTPDownloadStrategy < DownloadStrategy
   def download(url)
     uri = URI(url)
     response = Net::HTTP.get_response(uri)

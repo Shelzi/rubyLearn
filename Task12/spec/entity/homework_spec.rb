@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../entity/homework'
 
 RSpec.describe Homework do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../notification/notifier'
 require_relative '../notification/observer'
 require 'pry'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Repository
   def find(student, mentor)
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Notifier
   def attach(observer)
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def iterate_multi_dimensional_array(array, memo = [])
   array.each do |element|
     if element.is_a?(Array)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DownloadObject
   attr_accessor :image_info, :start_time, :end_time
 

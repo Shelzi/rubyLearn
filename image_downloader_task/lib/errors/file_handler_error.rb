@@ -2,4 +2,4 @@
 
 require_relative 'download_error'
 
-class HTMLContentTypeInvalidError < DownloadError; end
+class FileHandlerError < DownloadError; end

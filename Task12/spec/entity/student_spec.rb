@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../entity/mentor'
 require_relative '../../repository/school_repository'
 require_relative '../../entity/student'
