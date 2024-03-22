@@ -2,4 +2,4 @@
 
 require_relative 'download_error'
 
-class FileHandlerError < DownloadError; end
+class FileCreatorError < DownloadError; end

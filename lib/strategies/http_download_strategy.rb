@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'download_strategy.rb'
 require 'net/http'
 
 class HTTPDownloadStrategy < DownloadStrategy

@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 require_relative '../factories/download_strategy_factory'
-require_relative '../services/file_handler_service'
+require_relative 'file_creator_service'
 require_relative '../errors/no_free_space_error'
+require_relative '../errors/image_download_error'
+require_relative '../validators/file_size_validator'
+require_relative '../entities/image_info'
+require_relative '../entities/download_object'
 
 class ImageDownloadService
   def initialize(url:)
@@ -10,31 +14,29 @@ class ImageDownloadService
   end
 
   def call
-    validate!
+    validate_url!
     create_download_object
-    strategy = DownloadStrategyFactory.create(@download_object.image_info.url)
-    responce_body = strategy.download(download_task1.image_info.url)
-    create_file(responce_body)
+    strategy = DownloadStrategyFactory.create(url: @download_object.image_info.url)
+    @response_body = strategy.download(@download_object.image_info.url)
+    validate_create_conditions!
+    create_file(response_body: @response_body)
   rescue StandardError => e
     # TODO: add counting feature to continue downloading next images
-    raise ImageDownloadError, "Failed to download #{url}: #{e.message}"
+    raise ImageDownloadError, "Failed to download #{@url}: #{e.message}"
   end
 
   private
 
-  attr_reader :download_object
+  attr_reader :download_object, :response_body
 
   def validate_url!
     # TODO: url validators
   end
 
   def validate_create_conditions!
-    raise FileHandlerError, "No free space: #{e.message}" unless FileSizeValidator.validate(responce_body)
-    
+    # raise NoFreeSpaceError, "No free space" unless FileSizeValidator.new.validate(@response_body) #gem is not working
     # TODO: file creation validators
   end
-
-  def validate_file!
 
   def create_download_object
     image_info = ImageInfo.new(url: @url)
@@ -42,6 +44,6 @@ class ImageDownloadService
   end
 
   def create_file(response_body:)
-    FileHandlerService.new.create_image_from_responce(url: download_object.image_info.url, response_body: responce_body)
+    FileCreatorService.new(url: download_object.image_info.url, response_body: @response_body).call
   end
 end

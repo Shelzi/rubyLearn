@@ -4,7 +4,7 @@ class FTPDownloadStrategy < DownloadStrategy
   def download(url)
     puts "Pretend we're downloading over FTP from #{url}"
     # FTP download logic would be implemented here. I just dont want to implement it))))
-  rescue URLResponceError => e
+  rescue URLResponseError => e
     handle_error(e)
   end
 
